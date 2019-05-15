@@ -29,7 +29,7 @@ function Lock() {
       {id: 8, color: '#FF5722',},
       {id: 9, color: '#00BCD4',},
     ]
-if (true) {
+
   return (
     <div id='pagegrid'>
     <div id='locktitle'>
@@ -45,12 +45,6 @@ if (true) {
       </div>
     </div>
   )
-}
-else {
-  return (
-    <h2>hey hey</h2>
-  )
-}
 
 
 }
