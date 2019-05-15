@@ -1,8 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Button from './Button.js'
 import './lock.css'
 
 function Lock() {
+
+  const [pushed, onPush] = useState(
+    {
+      1: false,
+      2: false,
+      3: false,
+      4: false,
+      5: false,
+      6: false,
+      7: false,
+      8: false,
+      9: false,
+    }
+  )
 
   const buttons = [
       {id: 1, color: '#512DA8',},
@@ -15,7 +29,7 @@ function Lock() {
       {id: 8, color: '#FF5722',},
       {id: 9, color: '#00BCD4',},
     ]
-
+if (true) {
   return (
     <div id='pagegrid'>
     <div id='locktitle'>
@@ -23,11 +37,21 @@ function Lock() {
     </div>
       <div id='lockcontainer'>
         <div id='lockbox'>
-          {buttons.map(button => {return (<Button id={button.id} color={button.color} />)})}
+          {buttons.map(button => {return (<Button key={button.id} color={button.color} onClick={() => {
+            onPush((pushed) => ({...pushed, [button.id]: true}))
+            console.log(pushed);
+          }} pushed={pushed[button.id]} />)})}
         </div>
       </div>
     </div>
   )
+}
+else {
+  return (
+    <h2>hey hey</h2>
+  )
+}
+
 
 }
 
