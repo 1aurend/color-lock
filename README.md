@@ -61,10 +61,15 @@ Most of this is just divs that form our grid. See the css file. But you'll see w
 
 Before we start thinking about how our lock will function, we'll finish building the initial look of our lock keypad. This will introduce the essential React concept of *props*. Props, short for properties, are passed from parent components to children to tell the children what to render. What does that mean? Well, for our color lock, we want to render nine buttons each of which is a different color. We're not going to write a new Button component for each button. Instead, when Lock renders Button we're going to pass it a color as a prop and our button will become that color.
 
-To see this in action, change one of your `<Button />` tags in Lock to `<Button color='blue' />` or any color you like. Then, over in *Button.js*, we'll do two things. First, we'll get our Button component to receive props by putting props as the input to our arrow function: `const Button = (props) => {`. Then we'll update our button element to `<button className='colorbutton' style={{backgroundColor: props.color}}>I'm a button</button>`. Save your files and check your browser. You should see that one of your buttons has changed color! Now is a good moment to play around with changing the other buttons to familarize yourself with how passing props works. We can use our same component to render a button of any color simply by passing in that color when we use the component.
+To see this in action, change one of your `<Button />` tags in Lock to `<Button color='blue' />` or any color you like. Then, over in *Button.js*, we'll do two things. First, we'll get our Button component to receive props by putting props as the input to our arrow function: `const Button = (props) => {`. Then we'll update our button element to `<button className='colorbutton' style={{backgroundColor: props.color}}>I'm a button</button>`. Save your files and check your browser. You should see that one of your buttons has changed color!
 
+So what did we just do? First, when we rendered our component Button, we passed it a prop. We named that prop color by using 'color='. We could have named our prop anything; call your props unicorns if you want to, but descriptive names are more helpful as component trees get more complex. Then we passed the props object (this object is part of the react library) to Button by putting props as the input to our function. As an object, we access the values of props using regular old dot notation (or square bracket notation if you prefer). So, for example, if you log `props.color` here, you will get the color you passed in. Then we added some JSX inline styling. JSX handles inline styles using 'style='. Any css properties you put after style= will show up in this DOM element.
 
-In *Lock.js* add the following constant inside the function above the return statement:
+Now there are two things you might be wondering about: What's with the double curly brackets? And why is backgroundColor not background-color? In JSX, curly braces indicate that the code inside is js. So here, we have double curly braces because the first set indicate that what's inside is js and what's inside is a js object, which itself is signaled by curly braces, hence the second set. As for backgroundColor, React uses camelCase versions of css properties rather than dashes, but otherwise it's the same thing.
+
+Now is a good moment to play around with changing the other buttons to familarize yourself with how passing props works. We can use our same component to render a button of any color simply by passing in that color when we use the component. `git checkout passing-props` has the code to this point.
+
+Okay, now that you have the idea of props, we'll finish creating our buttons. In *Lock.js*, add the following constant inside the function but above the return statement:
 ```
 const buttons = [
     {id: 1, color: '#512DA8',},
@@ -78,4 +83,6 @@ const buttons = [
     {id: 9, color: '#00BCD4',},
   ]
   ```
-  You can change these colors to anything you like to personalize your lock. Each object in this array represents one of the nine buttons on our keypad. For now, we're just giving them two properties, (1) an id number that we'll use later to identify which button have been pressed, and (2) a color.
+You can change these colors to anything you like to personalize your lock. Each object in this array represents one of the nine buttons on our keypad. For now, we're just giving them two properties, (1) an id number that we'll use later to identify which button have been pressed, and (2) a color.
+
+Now we could render each of our buttons with a separate component tag like so `<Button id={buttons[0].id} color={buttons[0].color} />`, but
