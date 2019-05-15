@@ -1,4 +1,5 @@
-## Welcome to React!
+## LL Color Lock Tutorial
+### Welcome to React!
 
 [React](https://reactjs.org/) is a js library for building UI. React code is written in JSX, which is an extension of js that allows it to describe elements of the DOM. See [here](https://reactjs.org/docs/introducing-jsx.html) for the official word on JSX. I also highly recommend the tic-tac-toe tutorial in the official React docs if you really want to dig in and learn React.
 
@@ -93,4 +94,4 @@ To tidy things up, we'll also remove the "I'm a button labels from our buttons",
   <h2>Enter the code...</h2>
 </div>
 ```
-Okay-that's our basic lock! `git checkout basic-lock` to see the code up to this point. We've also now covered functional components, parent-child relations, and passing props. We're now ready to start making our lock interactive. 
+Okay-that's our basic lock! `git checkout basic-lock` to see the code up to this point. We've also now covered functional components, parent-child relations, and passing props. We're now ready to start making our lock interactive.
