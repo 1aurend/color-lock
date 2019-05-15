@@ -6,7 +6,7 @@ The two coolest things about React for the LL are (1) it allows us to write modu
 
 This tutorial will teach you core React concept through building a colorful keypad lock. If you checkout the master branch of this repo (enter `git checkout master` in terminal), install dependencies if you haven't already (`npm install --save`), and run `npm start`, you can see a working version of the lock.
 
-To start, you'll want to check out the starter-code branch (`git checkout starter-pack`). This branch contains a blank React app, which is what we'll be working from. You'll notice that our repo contains two folders: public and src. The public folder contains just a single file *index.html*. You might also notice that this html file is pretty empty. There's some header info, but the body of our page contains only a single div called 'root'. That's because React is going to take the JSX we write in our js files and use it to dynamically update the html that lives in that root div.
+To start, you'll want to checkout the starter-code branch (`git checkout starter-pack`). This branch contains a blank React app, which is what we'll be working from. You'll notice that our repo contains two folders: public and src. The public folder contains just a single file *index.html*. You might also notice that this html file is pretty empty. There's some header info, but the body of our page contains only a single div called 'root'. That's because React is going to take the JSX we write in our js files and use it to dynamically update the html that lives in that root div.
 
 To get a sense of how this works, let's look in src. There you'll see a file called *index.js*. It contains this line of code `ReactDOM.render(<Lock />, document.getElementById('root'));` (plus some import statements). Essentially, what that line of code says is find the component called 'Lock', which we will write in a minute, see what it says should appear on the screen based on the current state (a concept we'll cover later) and put the corresponding html in the root div. Okay, okay-- that's a mouthful. Let's make the component 'Lock' to see how this works.
 
@@ -33,7 +33,7 @@ const Button = () => {
 
 export default Button
 ```
-You'll notice this code looks a lot like our code for Lock. The main difference you might spot is the use of *className=* inside our `button` tag. This is the JSX version of class in html, so this simply tells us that our button's styling is defined by the css class 'colorbutton'.
+You'll notice this code looks a lot like our code for Lock. The main difference you might spot is the use of *className=* inside our *button* tag. This is the JSX version of class in html, so this simply tells us that our button's styling is defined by the css class 'colorbutton'.
 
 Now, if you look back in your browser (you might need to hit `npm start` again if you stopped the app), you'll notice... nothing! Why? Well, we created the component Button, but we haven't rendered it anywhere in the DOM. To do that, we'll need to make some changes to our component Lock because Lock is going to be the parent component of all our buttons.
 
@@ -58,3 +58,24 @@ Everything should look just as before in the browser. This function is equivalen
 </div>
 ```
 Most of this is just divs that form our grid. See the css file. But you'll see we're now rendering our component Button inside Lock. In fact we're rendering it three times. You can add several more buttons inside the lockbox div to see what happens. Hooray! We've created a reusable module of code. We only had to write Button once and can render it as many times as we want. `git checkout reuse-components` to see the code so far.
+
+Before we start thinking about how our lock will function, we'll finish building the initial look of our lock keypad. This will introduce the essential React concept of *props*. Props, short for properties, are passed from parent components to children to tell the children what to render. What does that mean? Well, for our color lock, we want to render nine buttons each of which is a different color. We're not going to write a new Button component for each button. Instead, when Lock renders Button we're going to pass it a color as a prop and our button will become that color.
+
+To see this in action, change one of your `<Button />` tags in Lock to `<Button color='blue' />` or any color you like. Then, over in *Button.js*, we'll do two things. First, we'll get our Button component to receive props by putting props as the input to our arrow function: `const Button = (props) => {`. Then we'll update our button element to `<button className='colorbutton' style={{backgroundColor: props.color}}>I'm a button</button>`. Save your files and check your browser. You should see that one of your buttons has changed color! Now is a good moment to play around with changing the other buttons to familarize yourself with how passing props works. We can use our same component to render a button of any color simply by passing in that color when we use the component.
+
+
+In *Lock.js* add the following constant inside the function above the return statement:
+```
+const buttons = [
+    {id: 1, color: '#512DA8',},
+    {id: 2, color: '#FFC107',},
+    {id: 3, color: '#E91E63',},
+    {id: 4, color: '#C2185B',},
+    {id: 5, color: '#2196F3',},
+    {id: 6, color: '#4CAF50',},
+    {id: 7, color: '#CDDC39',},
+    {id: 8, color: '#FF5722',},
+    {id: 9, color: '#00BCD4',},
+  ]
+  ```
+  You can change these colors to anything you like to personalize your lock. Each object in this array represents one of the nine buttons on our keypad. For now, we're just giving them two properties, (1) an id number that we'll use later to identify which button have been pressed, and (2) a color.

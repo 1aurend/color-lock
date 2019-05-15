@@ -8,7 +8,7 @@ function Lock() {
     <div id='pagegrid'>
       <div id='lockcontainer'>
         <div id='lockbox'>
-          <Button />
+          <Button color='blue'/>
           <Button />
           <Button />
         </div>
