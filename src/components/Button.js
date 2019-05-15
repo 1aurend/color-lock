@@ -1,9 +1,8 @@
 import React from 'react'
-import './lock.css'
 
 const Button = () => {
   return (
-    <button className='colorbutton'>button</button>
+    <button className='colorbutton'>I'm a button</button>
   )
 }
 

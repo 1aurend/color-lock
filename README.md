@@ -24,11 +24,10 @@ Save the file and then if you check in your browser, you should see whatever mes
 But okay, you say, that was a lot of work for some text. Very true! To see the power of composition, let's make another component. We'll call this one Button. In the components folder, make a new file *Button.js*. Add this code to that file:
 ```
 import React from 'react'
-import './lock.css'
 
 const Button = () => {
   return (
-    <button className='colorbutton'>button</button>
+    <button className='colorbutton'>I'm a button</button>
   )
 }
 
@@ -37,3 +36,25 @@ export default Button
 You'll notice this code looks a lot like our code for Lock. The main difference you might spot is the use of *className=* inside our `button` tag. This is the JSX version of class in html, so this simply tells us that our button's styling is defined by the css class 'colorbutton'.
 
 Now, if you look back in your browser (you might need to hit `npm start` again if you stopped the app), you'll notice... nothing! Why? Well, we created the component Button, but we haven't rendered it anywhere in the DOM. To do that, we'll need to make some changes to our component Lock because Lock is going to be the parent component of all our buttons.
+
+First, we'll import Button so we can call it: `import Button from './Button.js'` It's standard to group all your import statements at the top of the page. So we'll also import our css there as well: `import './lock.css'` Then, we need to change our Lock component from a constant to a functional component, that is a function that returns (literally a description of) a section of the DOM. So, we'll start by changing Lock into a function like so:
+```
+function Lock() {
+  return (
+    <p>look! a component!</p>
+    )
+}
+```
+Everything should look just as before in the browser. This function is equivalent to our earlier constant defined as arrow function. But now we'll change what this function returns. Replace the content of the return statement with:
+```
+<div id='pagegrid'>
+  <div id='lockcontainer'>
+    <div id='lockbox'>
+      <Button />
+      <Button />
+      <Button />
+    </div>
+  </div>
+</div>
+```
+Most of this is just divs that form our grid. See the css file. But you'll see we're now rendering our component Button inside Lock. In fact we're rendering it three times. You can add several more buttons inside the lockbox div to see what happens. Hooray! We've created a reusable module of code. We only had to write Button once and can render it as many times as we want.
