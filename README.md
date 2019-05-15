@@ -85,4 +85,12 @@ const buttons = [
   ```
 You can change these colors to anything you like to personalize your lock. Each object in this array represents one of the nine buttons on our keypad. For now, we're just giving them two properties, (1) an id number that we'll use later to identify which button have been pressed, and (2) a color.
 
-Now we could render each of our buttons with a separate component tag like so `<Button id={buttons[0].id} color={buttons[0].color} />`, but
+Now we could render each of our buttons with a separate component tag like so `<Button id={buttons[0].id} color={buttons[0].color} />`, but that's a lot to type. Instead, since our button properties are already in a nice array, we'll use a map function. Replace the three Button tags in Lock with the following: `{buttons.map(button => {return (<Button id={button.id} color={button.color} />)})}` Notice that once again we've enclosed our js in curly brackets, since it's inside our JSX.
+
+To tidy things up, we'll also remove the "I'm a button labels from our buttons", though of course you are free to label your buttons however you wish. You might even want to see if you can add a name field to the buttons array and see if you can render each button with a different name. We'll also add the instruction "Enter the code" above our lock by inserting the following div into Lock above lockcontainer:
+```
+<div id='locktitle'>
+  <h2>Enter the code...</h2>
+</div>
+```
+Okay-that's our basic lock! `git checkout basic-lock` to see the code up to this point. We've also now covered functional components, parent-child relations, and passing props. We're now ready to start making our lock interactive. 
