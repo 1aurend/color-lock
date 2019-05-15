@@ -10,7 +10,7 @@ To start, you'll want to check out the starter-code branch (`git checkout starte
 
 To get a sense of how this works, let's look in src. There you'll see a file called *index.js*. It contains this line of code `ReactDOM.render(<Lock />, document.getElementById('root'));` (plus some import statements). Essentially, what that line of code says is find the component called 'Lock', which we will write in a minute, see what it says should appear on the screen based on the current state (a concept we'll cover later) and put the corresponding html in the root div. Okay, okay-- that's a mouthful. Let's make the component 'Lock' to see how this works.
 
-First, let's make a new file called *Lock.js* and put it in the components folder. For now we're going to create the simplest of components. At top we need to import React, so our webpack (the compiler that turns JSX into html) knows that this is a React script. So, the first line in our file should be `import React from 'react'`. Then we'll make a component by simply defining a constant: `const Lock = () => {return <p>look! a component!</p>}` Finally, we need to export our component `export default Lock`. So our whole file *Lock.js* should look like this:
+First, let's make a new file called *Lock.js* and put it in the components folder. For now we're going to create the simplest of components. At top we need to import React, so our webpack (the compiler that turns JSX into html) knows that this is a React script. So, the first line in our file should be `import React from 'react'`. Then we'll make a component by simply defining a constant: `const Lock = () => {return <p>look! a component!</p>}` Notice that the name of this component is capitalized. React treats capitalized elements as components and lowercase ones like div as elements of the DOM. Finally, we need to export our component `export default Lock`. So our whole file *Lock.js* should look like this:
 ```
 import React from 'react'
 
@@ -21,4 +21,19 @@ export default Lock
 
 Save the file and then if you check in your browser, you should see whatever message you typed in Lock appear on the screen. You can also `git checkout first-component` to see the code thus far.
 
-But okay, you say, that was a lot of work for some text. Very true! To see the power of composition, let's make another component. We'll call this one Button. In the components folder, make a new file *Button.js*.
+But okay, you say, that was a lot of work for some text. Very true! To see the power of composition, let's make another component. We'll call this one Button. In the components folder, make a new file *Button.js*. Add this code to that file:
+```
+import React from 'react'
+import './lock.css'
+
+const Button = () => {
+  return (
+    <button className='colorbutton'>button</button>
+  )
+}
+
+export default Button
+```
+You'll notice this code looks a lot like our code for Lock. The main difference you might spot is the use of *className=* inside our `button` tag. This is the JSX version of class in html, so this simply tells us that our button's styling is defined by the css class 'colorbutton'.
+
+Now, if you look back in your browser (you might need to hit `npm start` again if you stopped the app), you'll notice... nothing! Why? Well, we created the component Button, but we haven't rendered it anywhere in the DOM. To do that, we'll need to make some changes to our component Lock because Lock is going to be the parent component of all our buttons.
