@@ -57,4 +57,4 @@ Everything should look just as before in the browser. This function is equivalen
   </div>
 </div>
 ```
-Most of this is just divs that form our grid. See the css file. But you'll see we're now rendering our component Button inside Lock. In fact we're rendering it three times. You can add several more buttons inside the lockbox div to see what happens. Hooray! We've created a reusable module of code. We only had to write Button once and can render it as many times as we want.
+Most of this is just divs that form our grid. See the css file. But you'll see we're now rendering our component Button inside Lock. In fact we're rendering it three times. You can add several more buttons inside the lockbox div to see what happens. Hooray! We've created a reusable module of code. We only had to write Button once and can render it as many times as we want. `git checkout reuse-components` to see the code so far.
