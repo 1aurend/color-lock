@@ -95,3 +95,5 @@ To tidy things up, we'll also remove the "I'm a button labels from our buttons",
 </div>
 ```
 Okay-that's our basic lock! `git checkout basic-lock` to see the code up to this point. We've also now covered functional components, parent-child relations, and passing props. We're now ready to start making our lock interactive.
+
+At this point, the tutorial forks into two paths (kind of like a choose your own adventure??). If you `git checkout state-hooks`, you'll build your lock using a new React addition called [Hooks](https://reactjs.org/docs/hooks-intro.html), which allow us to use state variables and the logic of lifecycle methods in our functional components. If instead you `git checkout class-components`, you'll build your lock using a class component, `this.state`, and the lifecycle method `componentDidUpdate`. Both work: classes and binding `this` can be confusing; hooks are new and can't yet do absolutely everything classes can but should be more intuitive. (They also solve some other problems for more complex React applications, so they are pitched as the way of the future.) Take your pick.
