@@ -1,4 +1,5 @@
-## Welcome to React!
+## LL Color Lock Tutorial
+### Welcome to React!
 
 [React](https://reactjs.org/) is a js library for building UI. React code is written in JSX, which is an extension of js that allows it to describe elements of the DOM. See [here](https://reactjs.org/docs/introducing-jsx.html) for the official word on JSX. I also highly recommend the tic-tac-toe tutorial in the official React docs if you really want to dig in and learn React.
 
@@ -85,4 +86,14 @@ const buttons = [
   ```
 You can change these colors to anything you like to personalize your lock. Each object in this array represents one of the nine buttons on our keypad. For now, we're just giving them two properties, (1) an id number that we'll use later to identify which button have been pressed, and (2) a color.
 
-Now we could render each of our buttons with a separate component tag like so `<Button id={buttons[0].id} color={buttons[0].color} />`, but
+Now we could render each of our buttons with a separate component tag like so `<Button id={buttons[0].id} color={buttons[0].color} />`, but that's a lot to type. Instead, since our button properties are already in a nice array, we'll use a map function. Replace the three Button tags in Lock with the following: `{buttons.map(button => {return (<Button id={button.id} color={button.color} />)})}` Notice that once again we've enclosed our js in curly brackets, since it's inside our JSX.
+
+To tidy things up, we'll also remove the "I'm a button labels from our buttons", though of course you are free to label your buttons however you wish. You might even want to see if you can add a name field to the buttons array and see if you can render each button with a different name. We'll also add the instruction "Enter the code" above our lock by inserting the following div into Lock above lockcontainer:
+```
+<div id='locktitle'>
+  <h2>Enter the code...</h2>
+</div>
+```
+Okay-that's our basic lock! `git checkout basic-lock` to see the code up to this point. We've also now covered functional components, parent-child relations, and passing props. We're now ready to start making our lock interactive.
+
+At this point, the tutorial forks into two paths (kind of like a choose your own adventure??). If you `git checkout state-hooks`, you'll build your lock using a new React addition called [Hooks](https://reactjs.org/docs/hooks-intro.html), which allow us to use state variables and the logic of lifecycle methods in our functional components. If instead you `git checkout class-components`, you'll build your lock using a class component, `this.state`, and the lifecycle method `componentDidUpdate`. Both work: classes and binding `this` can be confusing; hooks are new and can't yet do absolutely everything classes can but should be more intuitive. (They also solve some other problems for more complex React applications, so they are pitched as the way of the future.) Take your pick.
