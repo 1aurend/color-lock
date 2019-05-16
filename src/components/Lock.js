@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import './lock.css'
 import Button from './Button.js'
-import Unlock from './Unlock.js'
 
 
 class Lock extends Component {
@@ -44,11 +43,9 @@ class Lock extends Component {
   }
 
   componentDidUpdate() {
-    let code = [2, 6, 9, 3]
+    let code = [1,2]
 
-    if (this.state.entries.length === 4) {
-      console.log('testing ' + this.state.entries);
-      console.log('against ' + code);
+    if (this.state.entries.length === 2) {
       if (JSON.stringify(this.state.entries) === JSON.stringify(code)) {
         this.setState({
           unlocked: true,
@@ -92,21 +89,42 @@ class Lock extends Component {
     {id: 9, color: '#00BCD4',},
   ]
 
-  return (
-    <div id='pagegrid'>
-    <div id='locktitle'>
-      <h2>Enter the code...</h2>
-    </div>
-    <div id='lockcontainer'>
-    <div id='lockbox'>
-      {buttons.map(button => {
-        return (<Button id={button.id} color={button.color} pushed={this.state.pushed[button.id]} key={button.id} onClick={() => this.pushButton(button.id)}/>)
-      })}
+  if (!this.state.unlocked) {
+    return (
+      <div id='pagegrid'>
+      <div id='locktitle'>
+        <h2>Enter the code...</h2>
       </div>
-    </div>
-    <Unlock unlocked={this.state.unlocked}/>
-    </div>
-  )
+      <div id='lockcontainer'>
+      <div id='lockbox'>
+        {buttons.map(button => {
+          return (<Button id={button.id} color={button.color} pushed={this.state.pushed[button.id]} key={button.id} onClick={() => this.pushButton(button.id)}/>)
+        })}
+        </div>
+      </div>
+      </div>
+    )
+  }
+  else {
+    return (
+      <div id='pagegrid'>
+      <div id='locktitle'>
+        <h2>Success!</h2>
+      </div>
+      <div id='lockcontainer'>
+      <div id='lockbox'>
+        {buttons.map(button => {
+          return (<Button id={button.id} color={button.color} pushed={this.state.pushed[button.id]} key={button.id} onClick={() => this.pushButton(button.id)}/>)
+        })}
+        </div>
+      </div>
+        <div id='success'>
+              <iframe src="https://giphy.com/embed/4xpB3eE00FfBm" width="240" height="229" frameBorder="0" allowFullScreen title='baby success'></iframe>
+          </div>
+      </div>
+    )
+  }
+
 }
 
 }
