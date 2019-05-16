@@ -9,4 +9,5 @@ This tutorial will teach you core React concept through building a colorful keyp
 
 To start, you'll want to checkout the starter-code branch (`git checkout starter-pack`). The readme in each branch will contain the full tutorial with one caveat. After the branch `basic-lock`, the tutorial forks to show you two ways to build the lock's functionality, one using class components and one using React's newest addtion Hooks. The readmes in the two forks diverge accordingly.
 
-#### Have fun! (And let me know of any suggestions for usability or errors you find. TIA!)
+#### Have fun!
+(And let me know of any suggestions for usability or errors you find. TIA!)
