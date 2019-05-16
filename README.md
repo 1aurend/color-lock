@@ -96,7 +96,7 @@ To tidy things up, we'll also remove the "I'm a button labels from our buttons",
 ```
 Okay-that's our basic lock! `git checkout basic-lock` to see the code up to this point. We've also now covered functional components, parent-child relations, and passing props. We're now ready to start making our lock interactive.
 
-At this point, the tutorial forks into two paths (kind of like a choose your own adventure??). If you continue to follow this set of instructions, you'll build your lock using a new React addition called [Hooks](https://reactjs.org/docs/hooks-intro.html), which allow us to use state variables and the logic of lifecycle methods in our functional components. If instead you `git checkout class-components`, you'll build your lock using a class component, `this.state`, and the lifecycle method `componentDidUpdate`. Both work: classes and binding this can be confusing; hooks are new and can't yet do absolutely everything classes can but should be more intuitive. (They also solve some other problems for more complex React applications, so they may be the way of the future.) Take your pick.
+At this point, the tutorial forks into two paths (kind of like a choose your own adventure??). If you continue to follow this set of instructions, you'll build your lock using a new React addition called [Hooks](https://reactjs.org/docs/hooks-intro.html), which allow us to use state variables and the logic of lifecycle methods in our functional components. If instead you `git checkout class-components`, you'll build your lock using a class component, `this.state`, and the lifecycle method `componentDidUpdate`. Both work: classes and binding `this` can be confusing; hooks are new and can't yet do absolutely everything classes can but should be more intuitive. (They also solve some other problems for more complex React applications, so they are pitched as the way of the future.) Take your pick.
 
 We're going to use the hook `useState()`. This hook allows us to create state variables without using this. (If you don't know what this is, don't worry about it! How nice is that?!) You can think of state variables as variables that are created inside a function but yet persist after the function has run. This is contrary to normal function variable scopes, where the variables are not defined outside of the function. Because state variables persist, React can compare their previous values to new values each time our function, our functional component, runs and determine whether or not to re-render. Again, that's a lot of words. Let's try it out!
 
@@ -154,7 +154,7 @@ const Button = (props) => {
 
 }
 ```
-You might want to compare this to the previous version to make sure you understand what's going on here. We've essentially made two copies of our initial `return` and enclosed them in conditionals. The only difference in what we return is that if `props.pressed` is true, the button will now have a white border to indicate it has been pressed. Check your browser to try it out. Neat!
+You might want to compare this to the previous version to make sure you understand what's going on here. We've essentially made two copies of our initial `return` and enclosed them in conditionals. The only difference in what we return is that if `props.pressed` is true, the button will now have a white border to indicate it has been pressed. Check your browser to try it out. Neat! `git checkout state-hooks` has the code so far.
 
 We're almost there now. We just need to get our lock to recognized when the correct code has been entered and it is unlocked. Before reading on, take a moment to review what you know and think about how we might implement this functionality.
 
@@ -195,6 +195,57 @@ useEffect(() => {
   }
 }, [entries])
 ```
-This hook function lives inside `Lock`. I put it just above my `return` but exact placement shouldn't matter too much. `useEffect()` is the special hook function from React, like `useState()`. Here it takes two inputs: (1) the function we want to trigger on each re-render. This should be familiar. It's an arrow function with no inputs. In it, we simply define a variable to represent your unlock code; then we check to see if `entries`, the user inputs, matches the code. To compare contents of arrays using === we have to stringify. If the two match, we trigger `itsOpen()` to update our state variable to `true` or unlocked. (2) an array of dependencies. This is needed for scope reasons so that we don't accidentally trigger infinite re-renders. In our case, the only variable we're accessing in `useEffect()` is `entries`, so it's the only item in the array.
+This hook function lives inside `Lock`. I put it just above my `return` but exact placement shouldn't matter too much. `useEffect()` is the special hook function from React, like `useState()`. Here it takes two inputs: (1) the function we want to trigger on each re-render. This should be familiar. It's an arrow function with no inputs. In it, we simply define a variable to represent your unlock code; then we check to see if `entries`, the user inputs, matches the code. To compare contents of arrays using `===` we have to stringify. If the two match, we trigger `itsOpen()` to update our state variable to `true` or unlocked. (2) an array of dependencies. This is needed for scope reasons so that we don't accidentally trigger infinite re-renders. In our case, the only variable we're accessing in `useEffect()` is `entries`, so it's the only item in the array.
 
 In the browser now, if you enter your code in your lock, you should see "unlocked!" appear in the console. `git checkout unlocking` to see the code so far.
+
+There's just one (or maybe two) steps left to finish our lock. We want to render something in the browser to show the user that it's unlocked and not just log it to the console. To do that we'll once again make use of conditional rendering. In `Lock`, we'll add an `if` around our current return statement, since we want our lock to look like this only if it's locked. So, we'll enclose our `return` in an if like this:
+```
+if (!unlocked) {
+  return (
+    ...  
+```
+Then we'll add an `else` and return what we want the lock to like when it's unlocked. Since this is a tutorial, I've done this very simply by changing the title above the lock from "Enter the code" to "Success!" like so:
+```
+else {
+  return (
+    <div id='pagegrid'>
+    <div id='locktitle'>
+      <h2>Success!</h2>
+    </div>
+    ...
+```
+The rest of the `return` is identical to what's in the `if`. (Except I added a little easter egg in mine. Feel free to add your own by just inserting a new div with `id='success'` in this `return`.)
+
+Now try out your lock! You should see "Sucess!" pop up when you enter the correct code. And you did it! You made a React app.
+
+The one last thing you might want to do, and hence the maybe two steps, is tell you lock to reset if the user enters an incorrect code. We do that by adding a few lines to the function in our effect hook like so:
+```
+useEffect(() => {
+  let code = [YOUR_SECRET_CODE]
+  console.log(JSON.stringify(code))
+  console.log(JSON.stringify(entries))
+  if (JSON.stringify(code) === JSON.stringify(entries)) {
+    itsOpen(true)
+  }
+  else {
+    if (entries.length === [LENGTH_OF_YOUR_CODE]) {
+      addEntry([])
+      onPress(
+        {
+          1: false,
+          2: false,
+          3: false,
+          4: false,
+          5: false,
+          6: false,
+          7: false,
+          8: false,
+          9: false,
+        }
+      )
+    }
+  }
+}, [entries])
+```
+This simply resets our `pressed` and `entries` state variables back to their initial values when the user has entered an incorrect code of the correct length. And that's it! Go build something bigger!
