@@ -154,7 +154,7 @@ const Button = (props) => {
 
 }
 ```
-You might want to compare this to the previous version to make sure you understand what's going on here. We've essentially made two copies of our initial `return` and enclosed them in conditionals. The only difference in what we return is that if `props.pressed` is true, the button will now have a white board to indicate it has been pressed. Check your browser to try it out. Neat!
+You might want to compare this to the previous version to make sure you understand what's going on here. We've essentially made two copies of our initial `return` and enclosed them in conditionals. The only difference in what we return is that if `props.pressed` is true, the button will now have a white border to indicate it has been pressed. Check your browser to try it out. Neat!
 
 We're almost there now. We just need to get our lock to recognized when the correct code has been entered and it is unlocked. Before reading on, take a moment to review what you know and think about how we might implement this functionality.
 
@@ -170,3 +170,82 @@ Hopefully, it's getting clearer what these are doing. They create the two new st
 addEntry([...entries, button.id])
 console.log(entries);
 ```
+And now our complete click handler looks like this:
+```
+onClick={() => {
+  onPress((pressed) => ({...pressed, [button.id]: true}))
+  console.log(pressed);
+  addEntry([...entries, button.id])
+  console.log(entries);
+}}
+```
+If you check your console at this point, you should see a log of both pressed and entries, where entries is a growing array of the ids of the buttons pressed.
+
+Next, we need to introduce a second type of hook--the effect hook. Don't worry if this is starting to get to be a lot of new concepts to remember. The main thing you need to know about effect hooks is that they are functions that run every time your component re-renders, which is essentially anytime state updates. So that click handler we just defined? It updates state and so triggers a re-render each time the user clicks.
+
+Okay, so take a step back and just think for second about what our function needs to do. Its job is to unlock or keep locked our lock. So, it needs to be able to compare the passcode to the user's inputs. Well, we already have all the user inputs stored in `entries` so we just need a function that compares `entries` to whatever your code is. Here's what that function looks like; we'll unpack it below:
+```
+useEffect(() => {
+  let code = [YOUR_SECRET_CODE]
+  console.log(JSON.stringify(code))
+  console.log(JSON.stringify(entries));
+  if (JSON.stringify(code) === JSON.stringify(entries)) {
+    itsOpen(true)
+    console.log('unlocked!');
+  }
+}, [entries])
+```
+This hook function lives inside `Lock`. I put it just above my `return` but exact placement shouldn't matter too much. `useEffect()` is the special hook function from React, like `useState()`. Here it takes two inputs: (1) the function we want to trigger on each re-render. This should be familiar. It's an arrow function with no inputs. In it, we simply define a variable to represent your unlock code; then we check to see if `entries`, the user inputs, matches the code. To compare contents of arrays using === we have to stringify. If the two match, we trigger `itsOpen()` to update our state variable to `true` or unlocked. (2) an array of dependencies. This is needed for scope reasons so that we don't accidentally trigger infinite re-renders. In our case, the only variable we're accessing in `useEffect()` is `entries`, so it's the only item in the array.
+
+In the browser now, if you enter your code in your lock, you should see "unlocked!" appear in the console. `git checkout unlocking` to see the code so far.
+
+There's just one (or maybe two) steps left to finish our lock. We want to render something in the browser to show the user that it's unlocked and not just log it to the console. To do that we'll once again make use of conditional rendering. In `Lock`, we'll add an `if` around our current return statement, since we want our lock to look like this only if it's locked. So, we'll enclose our `return` in an if like this:
+```
+if (!unlocked) {
+  return (
+    ...  
+```
+Then we'll add an `else` and return what we want the lock to like when it's unlocked. Since this is a tutorial, I've done this very simply by changing the title above the lock from "Enter the code" to "Success!" like so:
+```
+else {
+  return (
+    <div id='pagegrid'>
+    <div id='locktitle'>
+      <h2>Success!</h2>
+    </div>
+    ...
+```
+The rest of the `return` is identical to what's in the `if`. (Except I added a little easter egg in mine. Feel free to add your own by just inserting a new div with `id='success'` in this `return`.)
+
+Now try out your lock! You should see "Sucess!" pop up when you enter the correct code. And you did it! You made a React app.
+
+The one last thing you might want to do, and hence the maybe two steps, is tell you lock to reset if the user enters an incorrect code. We do that by adding a few lines to the function in our effect hook like so:
+```
+useEffect(() => {
+  let code = [YOUR_SECRET_CODE]
+  console.log(JSON.stringify(code))
+  console.log(JSON.stringify(entries))
+  if (JSON.stringify(code) === JSON.stringify(entries)) {
+    itsOpen(true)
+  }
+  else {
+    if (entries.length === [LENGTH_OF_YOUR_CODE]) {
+      addEntry([])
+      onPress(
+        {
+          1: false,
+          2: false,
+          3: false,
+          4: false,
+          5: false,
+          6: false,
+          7: false,
+          8: false,
+          9: false,
+        }
+      )
+    }
+  }
+}, [entries])
+```
+This simply resets our `pressed` and `entries` state variables back to their initial values when the user has entered an incorrect code of the correct length. And that's it! Go build something bigger!

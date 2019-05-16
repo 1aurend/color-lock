@@ -35,9 +35,27 @@ function Lock() {
     useEffect(() => {
       let code = [1, 2]
       console.log(JSON.stringify(code))
-      console.log(JSON.stringify(entries));
+      console.log(JSON.stringify(entries))
       if (JSON.stringify(code) === JSON.stringify(entries)) {
         itsOpen(true)
+      }
+      else {
+        if (entries.length === 2) {
+          addEntry([])
+          onPress(
+            {
+              1: false,
+              2: false,
+              3: false,
+              4: false,
+              5: false,
+              6: false,
+              7: false,
+              8: false,
+              9: false,
+            }
+          )
+        }
       }
     }, [entries])
 
@@ -61,7 +79,7 @@ function Lock() {
     )
 
   }
-  else if (unlocked) {
+  else {
     return (
       <div id='pagegrid'>
       <div id='locktitle'>
