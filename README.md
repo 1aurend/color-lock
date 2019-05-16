@@ -155,3 +155,18 @@ const Button = (props) => {
 }
 ```
 You might want to compare this to the previous version to make sure you understand what's going on here. We've essentially made two copies of our initial `return` and enclosed them in conditionals. The only difference in what we return is that if `props.pressed` is true, the button will now have a white board to indicate it has been pressed. Check your browser to try it out. Neat!
+
+We're almost there now. We just need to get our lock to recognized when the correct code has been entered and it is unlocked. Before reading on, take a moment to review what you know and think about how we might implement this functionality.
+
+Ready? As you hopefully figured out, we're going to need to create a couple of new state variables, one that tracks whether the lock is locked or unlocked and one that tracks which buttons have been pressed in what order. We'll add those next to `pressed` in `Lock` like so:
+```
+const [unlocked, itsOpen] = useState(false)
+const [entries, addEntry] = useState([])
+```
+Hopefully, it's getting clearer what these are doing. They create the two new state variables and corresponding functions to update them. Next we need to trigger these functions.
+
+`addEntry()` is the easy one. We want to trigger it each time a button is pressed just like we're using `onPress()`. So, we can add it in like this:
+```
+addEntry([...entries, button.id])
+console.log(entries);
+```

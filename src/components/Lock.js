@@ -17,6 +17,8 @@ function Lock() {
       9: false,
     }
   )
+  const [unlocked, itsOpen] = useState(false)
+  const [entries, addEntry] = useState([])
 
   const buttons = [
       {id: 1, color: '#512DA8',},
@@ -40,6 +42,8 @@ function Lock() {
           {buttons.map(button => {return (<Button key={button.id} color={button.color} onClick={() => {
             onPress((pressed) => ({...pressed, [button.id]: true}))
             console.log(pressed);
+            addEntry([...entries, button.id])
+            console.log(entries);
           }} pressed={pressed[button.id]} />)})}
         </div>
       </div>
