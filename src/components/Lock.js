@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from './Button.js'
 import './lock.css'
 
@@ -19,7 +19,6 @@ function Lock() {
   )
   const [unlocked, itsOpen] = useState(false)
   const [entries, addEntry] = useState([])
-  const entriesRef = useRef()
 
   const buttons = [
       {id: 1, color: '#512DA8',},
@@ -35,14 +34,14 @@ function Lock() {
 
     useEffect(() => {
       let code = [1, 2]
-      console.log('here');
       console.log(JSON.stringify(code))
-      console.log(JSON.stringify(entries))
+      console.log(JSON.stringify(entries));
       if (JSON.stringify(code) === JSON.stringify(entries)) {
         itsOpen(true)
-        console.log('hey hey')
+        console.log('unlocked!');
       }
-      })
+    }, [entries])
+
 
   return (
     <div id='pagegrid'>
