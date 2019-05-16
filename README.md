@@ -5,7 +5,7 @@
 
 The two coolest things about React for the LL are (1) it allows us to write modular bits of code called components that we can use again and again and (2) because it's for building UI, it puts interactivity at the center. So let's get started!
 
-This tutorial will teach you core React concept through building a colorful keypad lock. If you clone this repo `git clone https://github.com/1aurend/color-lock.git` in terminal, install dependencies (`npm install --save`), and run `npm start`, you can see a working version of the lock.
+This tutorial will teach you core React concepts through building a colorful keypad lock. If you clone this repo `git clone https://github.com/1aurend/color-lock.git` in terminal, install dependencies (`npm install --save`), and run `npm start`, you can see a working version of the lock.
 
 To start, you'll want to checkout the starter-code branch (`git checkout starter-pack`). The readme in each branch will contain the full tutorial with one caveat. After the branch `basic-lock`, the tutorial forks to show you two ways to build the lock's functionality, one using class components and one using React's newest addtion Hooks. The readmes in the two forks diverge accordingly.
 
