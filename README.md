@@ -95,3 +95,63 @@ To tidy things up, we'll also remove the "I'm a button labels from our buttons",
 </div>
 ```
 Okay-that's our basic lock! `git checkout basic-lock` to see the code up to this point. We've also now covered functional components, parent-child relations, and passing props. We're now ready to start making our lock interactive.
+
+At this point, the tutorial forks into two paths (kind of like a choose your own adventure??). If you continue to follow this set of instructions, you'll build your lock using a new React addition called [Hooks](https://reactjs.org/docs/hooks-intro.html), which allow us to use state variables in our functional components. If instead you `git checkout class-components`, you'll build your lock using a class component and `this.state`. Both work: classes and binding this can be confusing; hooks are new and can't yet do absolutely everything classes can. Take your pick.
+
+We're going to use the hook `useState()`. This hook allows us to create state variables without using this. (If you don't know what this is, don't worry about it! How nice is that?!) You can think of state variables as variables that are created inside a function but yet persist after the function has run. This is contrary to normal function variable scopes, where the variables are not defined outside of the function. Because state variables persist, React can compare their previous values to new values each time our function, our functional component, runs and determine whether or not to re-render. Again, that's a lot of words. Let's try it out!
+
+We implement `useState()` by declaring what might be a weird looking constant inside our Lock function. I put mine at the top just above the array of button colors, but it doesn't matter exactly where you put it as long as you declare it before your `return` statement:
+```
+const [pressed, onPress] = useState(
+    {
+      1: false,
+      2: false,
+      3: false,
+      4: false,
+      5: false,
+      6: false,
+      7: false,
+      8: false,
+      9: false,
+    }
+  )
+```
+So what's this all about? Definitely check out the link to the official documents on Hooks above, but the basic idea is that the function `useState()` takes the destructured array and (1) assigns an initial value to the first, so in this case the variable pressed gets our object with numerical keys as its value, and (2) creates a function that updates that variable named the second item in the array. So now we can call `onPress()` and whatever we put in the parentheses will become the new value of pressed. Cool, right?
+
+Of course, if you check in your browser, you will once again see no change. We now need to write some code that makes what we see on the screen change in response to changes in the value of `pressed`. The first thing we'll do is pass a click handler to our Button component. That's just a fancy way of saying, we'll give Button something to do when someone clicks on it. Our click handler is this:
+```
+onClick={() => {
+  onPress((pressed) => ({...pressed, [button.id]: true}))
+  console.log(pressed);
+}}
+```
+We also need a way of telling Button whether or not it has already been pressed and so to render accordingly. We'll do this by passing Button one more prop, namely its state variable:
+```
+pressed={pressed[button.id]}
+```
+Both of these go inside our map function that triggers Button. That whole bit of code should now look like this:
+```
+{buttons.map(button => {return (<Button key={button.id} color={button.color} onClick={() => {
+  onPress((pressed) => ({...pressed, [button.id]: true}))
+  console.log(pressed);
+}} pressed={pressed[button.id]} />)})}
+```
+Sweet! Now our buttons know what to do when clicked on and whether or not they've been pressed... but they still don't do anything. (If you check your browser console, you'll see that we're logging out pressed, though, and that state updates every time you click on a button.) Enter conditional rendering. I know, I know, another funny React term. But this is an important one. What it means is that we're going to give our component Button two different `return` statements enclosed in an `if...else`. If our condition is met, our button will look one way, if the condition is false, it will look another. I bet you can guess what that condition is-- whether `pressed` is true or false for that button. So we'll change the function in our Button component to this:
+```
+const Button = (props) => {
+
+  if (!props.pressed) {
+    return (
+      <button className='colorbutton' style={{backgroundColor: props.color}} onClick={props.onClick}></button>
+    )
+  }
+
+  else if (props.pressed) {
+    return (
+      <button className='colorbutton' style={{border: '5px solid white', backgroundColor: props.color}} onClick={props.onClick}></button>
+    )
+  }
+
+}
+```
+You might want to compare this to the previous version to make sure you understand what's going on here. We've essentially made two copies of our initial `return` and enclosed them in conditionals. The only difference in what we return is that if `props.pressed` is true, the button will now have a white board to indicate it has been pressed. Check your browser to try it out. Neat!

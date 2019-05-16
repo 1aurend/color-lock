@@ -4,7 +4,7 @@ import './lock.css'
 
 function Lock() {
 
-  const [pushed, onPush] = useState(
+  const [pressed, onPress] = useState(
     {
       1: false,
       2: false,
@@ -38,9 +38,9 @@ function Lock() {
       <div id='lockcontainer'>
         <div id='lockbox'>
           {buttons.map(button => {return (<Button key={button.id} color={button.color} onClick={() => {
-            onPush((pushed) => ({...pushed, [button.id]: true}))
-            console.log(pushed);
-          }} pushed={pushed[button.id]} />)})}
+            onPress((pressed) => ({...pressed, [button.id]: true}))
+            console.log(pressed);
+          }} pressed={pressed[button.id]} />)})}
         </div>
       </div>
     </div>
